@@ -3,58 +3,57 @@
     <h2>{{ id ? 'Modifier' : 'Ajouter' }} un Client</h2>
     <form @submit.prevent="saveClient">
       <div class="mb-3">
-        <label class="form-label">Prénom</label>
-        <input type="text" class="form-control" v-model="client.firstName" required />
-      </div>
-      <div class="mb-3">
         <label class="form-label">Nom</label>
-        <input type="text" class="form-control" v-model="client.lastName" required />
+        <input type="text" class="form-control" v-model="client.name" required />
       </div>
       <div class="mb-3">
         <label class="form-label">Email</label>
         <input type="email" class="form-control" v-model="client.email" required />
       </div>
-      <div class="mb-3">
-        <label class="form-label">Age</label>
-        <input type="number" class="form-control" v-model="client.age" required />
-      </div>
       <button type="submit" class="btn btn-success">{{ id ? 'Modifier' : 'Ajouter' }}</button>
-      <router-link to="/" class="btn btn-secondary">Annuler</router-link>
+      <router-link to="/clients" class="btn btn-secondary">Annuler</router-link>
     </form>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import apiService from '../services/apiService.js';
 import Swal from 'sweetalert2';
-import apiService from "../services/apiService.js";
 
-const route = useRoute();
 const router = useRouter();
-const id = route.params.id;
-const client = ref({ firstName: '', lastName: '', email: '', age:'' });
+const route = useRoute();
 
-const fetchClient = async () => {
-  if (id) {
-    const response = await apiService.getClient(id);
-    client.value = response.data.data;
-  }
-};
+const form = ref({
+  id: null,
+  name: '',
+  email: '',
+});
 
 const saveClient = async () => {
   try {
-    if (id) {
-      await apiService.updateClient(id, client.value);
+    if (form.value.id) {
+      await apiService.updateClient(form.value.id, form.value);
+      await Swal.fire('Succès', 'Client mis à jour.', 'success');
     } else {
-      await apiService.createClient(client.value);
+      await apiService.createClient(form.value);
+      await Swal.fire('Succès', 'Client créé.', 'success');
     }
-    await Swal.fire('Succès', 'Étudiant enregistré avec succès', 'success');
-    await router.push('/');
+    await router.push('/clients');
   } catch (error) {
-    await Swal.fire('Erreur', 'Impossible d\'enregistrer l\'étudiant', 'error');
+    await Swal.fire('Erreur', 'Impossible de sauvegarder le client.', 'error');
   }
 };
 
-onMounted(fetchClient);
+onMounted(async () => {
+  if (route.params.id) {
+    try {
+      const response = await apiService.getClient(route.params.id);
+      form.value = response.data.data;
+    } catch (error) {
+      await Swal.fire('Erreur', 'Impossible de charger les détails du client.', 'error');
+    }
+  }
+});
 </script>
