@@ -9,6 +9,7 @@
         <th>ID</th>
         <th>Nom</th>
         <th>Email</th>
+        <th>Poste</th>
         <th v-if="userRole !== 'ROLE_CLIENT'" >Actions</th>
       </tr>
       </thead>
@@ -17,6 +18,7 @@
         <td>{{ client.id }}</td>
         <td>{{ client.name }}</td>
         <td>{{ client.email }}</td>
+        <td>{{ client.job }}</td>
         <td>
           <button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(client)" class="btn btn-secondary">Modifier</button>
           <button v-if="userRole !== 'ROLE_CLIENT'" @click="deleteClient(client.id)" class="btn-delete ms-2">Supprimer</button>

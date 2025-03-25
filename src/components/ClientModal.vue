@@ -17,6 +17,10 @@
               <input v-model="client.email" type="email" class="form-control" required />
             </div>
             <div class="mb-3 d-flex align-items-center">
+              <label class="form-label me-2" style="min-width: 100px;">Poste :</label>
+              <input v-model="client.job"  class="form-control" />
+            </div>
+            <div class="mb-3 d-flex align-items-center">
               <label class="form-label me-2" style="min-width: 100px;">Mot de passe :</label>
               <input v-model="client.password" type="password" class="form-control" :placeholder="clientData ? 'Laisser vide pour ne pas modifier' : ''" />
             </div>
@@ -55,6 +59,7 @@ const client = ref({
   name: '',
   email: '',
   password: '',
+  job: '',
   companyId: defaultCompanyId
 });
 
@@ -64,6 +69,7 @@ watchEffect(() => {
       name: props.clientData.name,
       email: props.clientData.email,
       password: '',
+      job: props.clientData.job,
       companyId: defaultCompanyId
     };
   } else {
