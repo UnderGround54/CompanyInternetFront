@@ -76,7 +76,7 @@
         });
 
         await Swal.fire("Supprimé !", "Le client a été supprimé avec succès.", "success");
-        await fetchClients(); // Rafraîchir la liste après suppression
+        await fetchClients();
       } catch (error) {
         console.error("Erreur lors de la suppression :", error);
         await Swal.fire("Erreur", "Impossible de supprimer le client.", "error");
