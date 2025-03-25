@@ -21,8 +21,7 @@
               <input v-model="client.password" type="password" class="form-control" :placeholder="clientData ? 'Laisser vide pour ne pas modifier' : ''" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Company ID :</label>
-              <input v-model="client.companyId" type="number" class="form-control" required />
+              <input v-model="client.companyId" type="number" class="form-control d-none" required />
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="$emit('close')">Annuler</button>
@@ -30,7 +29,6 @@
             </div>
           </form>
         </div>
-
       </div>
     </div>
   </div>
@@ -41,18 +39,22 @@ import { ref, watchEffect, defineProps, defineEmits } from 'vue';
 import axios from 'axios';
 import TokenService from '../services/TokenService';
 import Swal from 'sweetalert2';
+import { useRoute } from 'vue-router';
 
 const props = defineProps({
   clientData: Object
 });
 
 const emit = defineEmits(['close', 'refresh']);
+const route = useRoute();
+
+const defaultCompanyId = route.params.companyId;
 
 const client = ref({
   name: '',
   email: '',
   password: '',
-  companyId: null
+  companyId: defaultCompanyId
 });
 
 watchEffect(() => {
@@ -61,8 +63,10 @@ watchEffect(() => {
       name: props.clientData.name,
       email: props.clientData.email,
       password: '',
-      companyId: props.clientData.companyId
+      companyId: defaultCompanyId
     };
+  } else {
+    client.value.companyId = defaultCompanyId;
   }
 });
 
