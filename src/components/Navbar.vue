@@ -6,23 +6,22 @@
 
     <div class="navbar-right">
       <div class="dropdown">
-        <button @click="toggleDropdown" class="dropdown-btn">
-          Entreprises
+        <button @click="toggleCompanyDropdown" class="dropdown-btn dropdown-toggle">
+          Company
         </button>
-        <ul v-if="showDropdown" class="dropdown-menu">
+        <ul v-if="showCompanyDropdown" class="dropdown-menu">
           <li v-for="company in companies" :key="company.id">
             {{ company.label }}
           </li>
         </ul>
       </div>
-
       <button @click="logout" class="logout-btn">Déconnexion</button>
     </div>
   </nav>
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 import TokenService from '../services/TokenService';
@@ -34,29 +33,42 @@ export default {
     const router = useRouter();
     const companies = ref([]);
     const showDropdown = ref(false);
+    const showCompanyDropdown = ref(false);
 
     const fetchCompanies = async () => {
       try {
         const token = TokenService.getToken();
         console.log("Token utilisé :", token);
 
-        const response = await axios.get('/api/companies/1', {
+        const response = await axios.get('/api/companies', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        console.log("Réponse API :", response.data);
-        companies.value = response.data.data.items;
+        if (response.data.data && response.data.data.items) {
+          companies.value = response.data.data.items.map(item => ({
+            id: item.id,
+            label: item.label,
+          }));
+
+        } else {
+          console.error("Les données des entreprises sont invalides ou manquantes.");
+          companies.value = [];
+        }
       } catch (error) {
         console.error("Erreur lors du chargement des entreprises :", error);
+        companies.value = [];
       }
     };
 
-
     const toggleDropdown = () => {
       showDropdown.value = !showDropdown.value;
-      if (showDropdown.value) {
+    };
+
+    const toggleCompanyDropdown = () => {
+      showCompanyDropdown.value = !showCompanyDropdown.value;
+      if (showCompanyDropdown.value && companies.value.length === 0) {
         fetchCompanies();
       }
     };
@@ -69,7 +81,9 @@ export default {
     return {
       companies,
       showDropdown,
+      showCompanyDropdown,
       toggleDropdown,
+      toggleCompanyDropdown,
       logout,
     };
   },
@@ -101,7 +115,7 @@ export default {
   margin-right: 20px;
 }
 
-.dropdown-btn {
+.dropdown-btn, .btn {
   background: none;
   border: none;
   color: white;
@@ -119,22 +133,20 @@ export default {
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
 }
 
-.dropdown-menu li {
+.dropdown-menu a, .dropdown-menu li {
   padding: 5px 10px;
   cursor: pointer;
 }
 
-.dropdown-menu li:hover {
+.dropdown-menu a:hover, .dropdown-menu li:hover {
   background: #ddd;
 }
 
-.logout-btn {
-  background: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+/* Afficher le dropdown quand la variable Vue est activée */
+.dropdown .dropdown-menu {
+  display: block;
 }
 </style>
