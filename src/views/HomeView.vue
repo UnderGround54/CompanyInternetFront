@@ -16,8 +16,8 @@ export default {
 
     onMounted(() => {
       const user = JSON.parse(localStorage.getItem('user'));
-      if (user) {
-        userName.value = user;
+      if (user && user.username) {
+        userName.value = user.username;
       }
     });
 

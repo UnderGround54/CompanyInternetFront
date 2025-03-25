@@ -14,7 +14,7 @@ class AuthService {
 
             const decodedToken = jwtDecode(token);
 
-            localStorage.setItem('user', JSON.stringify(decodedToken.username));
+            localStorage.setItem('user', JSON.stringify(decodedToken));
 
             return response.data;
         } catch (error) {

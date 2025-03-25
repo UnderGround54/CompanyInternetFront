@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Liste des Clients</h2>
-    <button @click="openModal(null)" class="btn-add">Ajouter un client</button>
+    <button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(null)" class="btn-add">Ajouter un client</button>
 
     <table>
       <thead>
@@ -9,7 +9,7 @@
         <th>ID</th>
         <th>Nom</th>
         <th>Email</th>
-        <th>Actions</th>
+        <th v-if="userRole !== 'ROLE_CLIENT'" >Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -18,8 +18,8 @@
         <td>{{ client.name }}</td>
         <td>{{ client.email }}</td>
         <td>
-          <button @click="openModal(client)" class="btn btn-secondary">Modifier</button>
-          <button @click="deleteClient(client.id)" class="btn-delete">Supprimer</button>
+          <button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(client)" class="btn btn-secondary">Modifier</button>
+          <button v-if="userRole !== 'ROLE_CLIENT'" @click="deleteClient(client.id)" class="btn-delete">Supprimer</button>
         </td>
       </tr>
       </tbody>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-  import { ref, watchEffect } from 'vue';
+  import { ref, watchEffect, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
   import axios from '../axios-interceptors'
   import TokenService from '../services/TokenService';
@@ -51,6 +51,14 @@
   const totalPages = ref(1);
   const showModal = ref(false);
   const selectedClient = ref(null);
+  const userRole = ref('');
+
+onMounted(() => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user && user.roles) {
+    userRole.value = user.roles[0];
+  }
+});
 
   const fetchClients = async (newPage = 1) => {
     const companyId = route.params.companyId;
