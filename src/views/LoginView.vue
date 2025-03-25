@@ -1,7 +1,7 @@
 <!-- src/views/LoginView.vue -->
 <template>
-  <div class="login-container">
-    <h2>Connexion</h2>
+  <div class="login-container card">
+    <h2>Login</h2>
     <form @submit.prevent="handleLogin">
       <input type="text" v-model="email" placeholder="Email" required />
       <input type="password" v-model="password" placeholder="Mot de passe" required />
