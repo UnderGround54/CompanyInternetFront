@@ -22,7 +22,7 @@
 
 <script>
 import { ref } from 'vue';
-import axios from 'axios';
+import axios from '../axios-interceptors'
 import AuthService from '../services/AuthService';
 import TokenService from '../services/TokenService';
 import { useRouter } from 'vue-router';

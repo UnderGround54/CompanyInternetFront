@@ -39,7 +39,7 @@
 <script setup>
   import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
-  import axios from 'axios';
+  import axios from '../axios-interceptors'
   import TokenService from '../services/TokenService';
   import Pagination from '../components/Pagination.vue';
   import ClientModal from '../components/ClientModal.vue';

@@ -36,7 +36,8 @@
 
 <script setup>
 import { ref, watchEffect, defineProps, defineEmits } from 'vue';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../axios-interceptors'
 import TokenService from '../services/TokenService';
 import Swal from 'sweetalert2';
 import { useRoute } from 'vue-router';
