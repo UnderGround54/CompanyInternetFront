@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h2>Liste des Clients</h2>
+    <h2>Liste des clients {{ company.label }}</h2>
     <button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(null)" class="btn-add">Ajouter un client</button>
 
     <table class="table table-striped">
@@ -52,6 +52,7 @@
   const showModal = ref(false);
   const selectedClient = ref(null);
   const userRole = ref('');
+  const company = ref('');
 
 onMounted(() => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -65,6 +66,13 @@ onMounted(() => {
     if (!companyId) return;
 
     try {
+
+      const companyFind = await axios.get(`/api/companies/${companyId}`, {
+        headers: { Authorization: `Bearer ${TokenService.getToken()}` }
+      });
+
+      company.value = companyFind.data.data;
+
       const response = await axios.get(`/api/clients/company/${companyId}`, {
         headers: { Authorization: `Bearer ${TokenService.getToken()}` },
         params: { page: newPage }

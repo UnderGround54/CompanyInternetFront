@@ -74,6 +74,7 @@ export default {
 
     const goToClients = (companyId) => {
       router.push(`/clients/company/${companyId}`);
+      showCompanyDropdown.value = false;
     };
 
     const logout = () => {

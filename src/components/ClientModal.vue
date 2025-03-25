@@ -8,24 +8,24 @@
         </div>
         <div class="modal-body">
           <form @submit.prevent="saveClient">
-            <div class="mb-3">
-              <label class="form-label">Nom :</label>
+            <div class="mb-3 d-flex align-items-center">
+              <label class="form-label me-2" style="min-width: 100px;">Nom :</label>
               <input v-model="client.name" type="text" class="form-control" required />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Email :</label>
+            <div class="mb-3 d-flex align-items-center">
+              <label class="form-label me-2" style="min-width: 100px;">Email :</label>
               <input v-model="client.email" type="email" class="form-control" required />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Mot de passe :</label>
+            <div class="mb-3 d-flex align-items-center">
+              <label class="form-label me-2" style="min-width: 100px;">Mot de passe :</label>
               <input v-model="client.password" type="password" class="form-control" :placeholder="clientData ? 'Laisser vide pour ne pas modifier' : ''" />
             </div>
             <div class="mb-3">
               <input v-model="client.companyId" type="number" class="form-control d-none" required />
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="$emit('close')">Annuler</button>
               <button type="submit" class="btn btn-primary">{{ clientData ? "Modifier" : "Créer" }}</button>
+              <button type="button" class="btn btn-secondary" @click="$emit('close')">Annuler</button>
             </div>
           </form>
         </div>
