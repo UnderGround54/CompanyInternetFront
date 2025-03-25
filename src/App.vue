@@ -1,24 +1,22 @@
 <template>
-  <div class="container">
-    <h1>Gestion des clients</h1>
-    <button v-if="apiService.getToken()" @click="logout">Deconnexion</button>
-    <RouterView />
+  <div>
+    <Navbar v-if="showNavbar" />
+    <router-view />
   </div>
 </template>
 
-<script setup>
-  import { RouterView } from 'vue-router';
-  import { useRouter } from 'vue-router';
-  import apiService from "./services/apiService.js";
+<script>
+import { useRoute } from 'vue-router';
+import Navbar from './components/Navbar.vue';
+import { computed } from 'vue';
 
-  const router = useRouter();
+export default {
+  components: { Navbar },
+  setup() {
+    const route = useRoute();
+    const showNavbar = computed(() => route.path !== '/login');
 
-  function logout(){
-    apiService.logout();
-    router.push('/login');
-  }
-
+    return { showNavbar };
+  },
+};
 </script>
-
-<style scoped>
-</style>
