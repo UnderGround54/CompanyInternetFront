@@ -1,5 +1,6 @@
 import axios from 'axios';
 import TokenService from './TokenService';
+import {jwtDecode} from "jwt-decode";
 
 const API_URL = '/api/login';
 
@@ -10,7 +11,10 @@ class AuthService {
             const token = response.data.token;
 
             TokenService.setToken(token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+
+            const decodedToken = jwtDecode(token);
+
+            localStorage.setItem('user', JSON.stringify(decodedToken.username));
 
             return response.data;
         } catch (error) {
@@ -40,7 +44,6 @@ class AuthService {
     }
 
     static handle401Error(error) {
-        console.log(error.response.status)
         if (error.response && error.response.status === 401) {
             AuthService.logout();
             AuthService.redirectToLogin();

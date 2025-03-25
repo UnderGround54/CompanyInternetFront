@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar-left">
-      <router-link to="/home" class="logo">MonApp</router-link>
+      <router-link to="/home" class="logo">Acceuill</router-link>
     </div>
 
     <div class="navbar-right">

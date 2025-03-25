@@ -1,23 +1,32 @@
 <template>
   <div class="home-container">
-    <h1>Bonjour</h1>
+    <h1>Bonjour, {{ userName }}</h1>
   </div>
 </template>
 
 <script>
 import AuthService from '../services/AuthService';
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
 
 export default {
   setup() {
     const router = useRouter();
+    const userName = ref('');
+
+    onMounted(() => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        userName.value = user;
+      }
+    });
 
     const logout = () => {
       AuthService.logout();
       router.push('/login');
     };
 
-    return { logout };
+    return { userName, logout };
   }
 };
 </script>
