@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="card">
     <h2>Liste des Clients</h2>
     <button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(null)" class="btn-add">Ajouter un client</button>
 
-    <table>
+    <table class="table table-striped">
       <thead>
       <tr>
         <th>ID</th>
@@ -19,7 +19,7 @@
         <td>{{ client.email }}</td>
         <td>
           <button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(client)" class="btn btn-secondary">Modifier</button>
-          <button v-if="userRole !== 'ROLE_CLIENT'" @click="deleteClient(client.id)" class="btn-delete">Supprimer</button>
+          <button v-if="userRole !== 'ROLE_CLIENT'" @click="deleteClient(client.id)" class="btn-delete ms-2">Supprimer</button>
         </td>
       </tr>
       </tbody>

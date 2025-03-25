@@ -149,7 +149,6 @@ export default {
   background: #ddd;
 }
 
-/* Afficher le dropdown quand la variable Vue est activée */
 .dropdown .dropdown-menu {
   display: block;
 }

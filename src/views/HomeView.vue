@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container">
+  <div class="container card">
     <h1>Bonjour, {{ userName }}</h1>
   </div>
 </template>
@@ -32,15 +32,4 @@ export default {
 </script>
 
 <style scoped>
-.home-container {
-  text-align: center;
-  margin-top: 50px;
-}
-button {
-  padding: 8px;
-  background: #d9534f;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
 </style>
