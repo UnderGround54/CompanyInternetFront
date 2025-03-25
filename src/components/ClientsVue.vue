@@ -1,6 +1,8 @@
 <template>
   <div>
     <h2>Liste des Clients</h2>
+    <button @click="openModal(null)" class="btn-add">Ajouter un client</button>
+
     <table>
       <thead>
       <tr>
@@ -16,6 +18,7 @@
         <td>{{ client.name }}</td>
         <td>{{ client.email }}</td>
         <td>
+          <button @click="openModal(client)" class="btn btn-secondary">Modifier</button>
           <button @click="deleteClient(client.id)" class="btn-delete">Supprimer</button>
         </td>
       </tr>
@@ -23,6 +26,13 @@
     </table>
 
     <Pagination :page="page" :totalPages="totalPages" @changePage="fetchClients" />
+
+    <ClientModal
+        v-if="showModal"
+        :clientData="selectedClient"
+        @close="showModal = false"
+        @refresh="fetchClients"
+    />
   </div>
 </template>
 
@@ -32,12 +42,15 @@
   import axios from 'axios';
   import TokenService from '../services/TokenService';
   import Pagination from '../components/Pagination.vue';
+  import ClientModal from '../components/ClientModal.vue';
   import Swal from 'sweetalert2';
 
   const route = useRoute();
   const clients = ref([]);
   const page = ref(1);
   const totalPages = ref(1);
+  const showModal = ref(false);
+  const selectedClient = ref(null);
 
   const fetchClients = async (newPage = 1) => {
     const companyId = route.params.companyId;
@@ -84,18 +97,29 @@
     }
   };
 
+  const openModal = (client) => {
+    selectedClient.value = client;
+    showModal.value = true;
+  };
+
   watchEffect(() => {
     fetchClients();
   });
 </script>
 
 <style scoped>
+.btn-add {
+  background-color: green;
+  color: white;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
 .btn-delete {
   background-color: red;
   color: white;
-  border: none;
   padding: 5px 10px;
-  cursor: pointer;
   border-radius: 5px;
 }
 
