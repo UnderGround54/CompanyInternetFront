@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar-left">
-      <router-link to="/" class="logo">MonApp</router-link>
+      <router-link to="/home" class="logo">MonApp</router-link>
     </div>
 
     <div class="navbar-right">
@@ -10,7 +10,7 @@
           Company
         </button>
         <ul v-if="showCompanyDropdown" class="dropdown-menu">
-          <li v-for="company in companies" :key="company.id">
+          <li v-for="company in companies" :key="company.id" @click="goToClients(company.id)">
             {{ company.label }}
           </li>
         </ul>
@@ -38,7 +38,6 @@ export default {
     const fetchCompanies = async () => {
       try {
         const token = TokenService.getToken();
-        console.log("Token utilisé :", token);
 
         const response = await axios.get('/api/companies', {
           headers: {
@@ -73,6 +72,10 @@ export default {
       }
     };
 
+    const goToClients = (companyId) => {
+      router.push(`/clients/company/${companyId}`);
+    };
+
     const logout = () => {
       AuthService.logout();
       router.push('/login');
@@ -84,6 +87,7 @@ export default {
       showCompanyDropdown,
       toggleDropdown,
       toggleCompanyDropdown,
+      goToClients,
       logout,
     };
   },

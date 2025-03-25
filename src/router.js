@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from './views/LoginView.vue';
 import HomeView from './views/HomeView.vue';
 import AuthService from './services/AuthService';
+import ClientsVue from "./components/ClientsVue.vue";
 
 const routes = [
     { path: '/login', component: LoginView },
@@ -16,7 +17,8 @@ const routes = [
             }
         }
     },
-    { path: '/', redirect: '/login' }
+    { path: '/', redirect: '/login' },
+    { path: '/clients/company/:companyId', component: ClientsVue, props: true },
 ];
 
 const router = createRouter({
