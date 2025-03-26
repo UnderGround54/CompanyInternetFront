@@ -15,7 +15,7 @@
           </li>
         </ul>
       </div>
-      <button @click="logout" class="logout-btn">Déconnexion</button>
+      <button @click="logout" class="logout-btn btn btn-danger">Déconnexion</button>
     </div>
   </nav>
 </template>

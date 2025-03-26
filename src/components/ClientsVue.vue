@@ -1,8 +1,7 @@
 <template>
   <div class="card">
     <h2>Liste des clients {{ company.label }}</h2>
-    <button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(null)" class="btn-add">Ajouter un client</button>
-
+    <div><button v-if="userRole !== 'ROLE_CLIENT'" @click="openModal(null)" class="btn-add">Ajouter un client</button></div>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -132,6 +131,7 @@ onMounted(() => {
   padding: 8px;
   margin-bottom: 10px;
   border-radius: 5px;
+  margin-left: 80%;
 }
 
 .btn-delete {

@@ -10,19 +10,19 @@
           <form @submit.prevent="saveClient">
             <div class="mb-3 d-flex align-items-center">
               <label class="form-label me-2" style="min-width: 100px;">Nom :</label>
-              <input v-model="client.name" type="text" class="form-control" required />
+              <input v-model="client.name" type="text" class="form-control" placeholder="Nom" required />
             </div>
             <div class="mb-3 d-flex align-items-center">
               <label class="form-label me-2" style="min-width: 100px;">Email :</label>
-              <input v-model="client.email" type="email" class="form-control" required />
+              <input v-model="client.email" type="email" class="form-control" placeholder="Email" required />
             </div>
             <div class="mb-3 d-flex align-items-center">
               <label class="form-label me-2" style="min-width: 100px;">Poste :</label>
-              <input v-model="client.job"  class="form-control" />
+              <input v-model="client.job"  class="form-control" placeholder="Poste" />
             </div>
             <div class="mb-3 d-flex align-items-center">
-              <label class="form-label me-2" style="min-width: 100px;">Mot de passe :</label>
-              <input v-model="client.password" type="password" class="form-control" :placeholder="clientData ? 'Laisser vide pour ne pas modifier' : ''" />
+              <label class="form-label me-2" style="min-width: 100px;">Password :</label>
+              <input v-model="client.password" type="password" class="form-control" :placeholder="clientData ? 'Laisser vide pour ne pas modifier' : 'Password'" />
             </div>
             <div class="mb-3">
               <input v-model="client.companyId" type="number" class="form-control d-none" required />
