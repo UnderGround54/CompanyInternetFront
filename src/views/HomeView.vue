@@ -1,6 +1,8 @@
 <template>
   <div class="container card">
-    <h1>Bonjour, {{ userName }}</h1>
+    <h1>Bonjour, {{ user.username }}</h1>
+    <p v-if="user && user.roles[0] === 'ROLE_ADMIN'">Vous êtes un administrateur</p>
+    <p v-else>Vous êtes un utilisateur standard</p>
   </div>
 </template>
 
@@ -12,12 +14,12 @@ import { ref, onMounted } from 'vue';
 export default {
   setup() {
     const router = useRouter();
-    const userName = ref('');
+    const user = ref('');
 
     onMounted(() => {
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (user && user.username) {
-        userName.value = user.username;
+      const userVar = JSON.parse(localStorage.getItem('user'));
+      if (user && userVar.username) {
+        user.value = userVar;
       }
     });
 
@@ -26,7 +28,7 @@ export default {
       router.push('/login');
     };
 
-    return { userName, logout };
+    return { user, logout };
   }
 };
 </script>
